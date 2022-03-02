@@ -1,6 +1,6 @@
 var albumBucketName = 'nmlt201021';
 var bucketRegion = 'ap-northeast-2';
-var IdentityPoolId = 'ap-northeast-2:367dd400-0773-419e-b5db-8b97004e5c64';
+var IdentityPoolId = 'ap-northeast-2:e8c008be-ef3e-422c-96c2-fd0a1178738c';
 
 AWS.config.update({
   region: bucketRegion,
