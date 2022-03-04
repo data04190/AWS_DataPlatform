@@ -1,4 +1,4 @@
-var albumBucketName = 'nmlt201021';
+var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
 var IdentityPoolId = 'ap-northeast-2:e8c008be-ef3e-422c-96c2-fd0a1178738c';
 
