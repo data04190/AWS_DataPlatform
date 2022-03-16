@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <link type = "text/css" rel = "stylesheet" href ="login.css">
+    <meta charset="utf-8">
+
+	<!-- Javascript SDKs-->
+  	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+    <!-- 
+    <script src="js/amazon-cognito-auth.min.js"></script>
+  -->
+    
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
+    <script src="js/amazon-cognito-identity.min.js"></script>  
+  	<script src="js/config.js"></script>
+
+  </head>
+  <body>
+
+    <h2>EEG Platform Login</h2>  
+
+    <form class = "form-horizontal">
+        
+      <table>
+        <tr>
+          <td>
+            <label>Email :</label></td>
+          <td>
+            <input type="text" id="inputUsername"  placeholder="Email address" name="username" required autofocus><br></td>
+        <tr><td>
+              <label> Pass :</label></td>
+            <td>
+              <input type="password" id="inputPassword"  placeholder="Password" name="password" required><br></td>
+
+      </table>
+
+      <div id = "button">
+      <button type="button" class = "button" onclick="signInButton()">Login</button>  
+      <button type="button" class = "button" onclick="signInButton()">Register</button><br>
+      </div>
+      <a href= "http://www.naver.com">Forget the password</a>
+
+
+    </form>
+
+
+<script>
+
+  function signInButton() {
+    
+	var authenticationData = {
+        Username : document.getElementById("inputUsername").value,
+        Password : document.getElementById("inputPassword").value,
+    };
+	
+    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+    
+	var poolData = {
+        UserPoolId : _config.cognito.userPoolId, // Your user pool id here
+        ClientId : _config.cognito.clientId, // Your client id here
+    };
+	
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+	
+    var userData = {
+        Username : document.getElementById("inputUsername").value,
+        Pool : userPool,
+    };
+	
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    
+	cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+			var accessToken = result.getAccessToken().getJwtToken();
+			console.log(accessToken);	
+        },
+
+        onFailure: function(err) {
+            alert(err.message || JSON.stringify(err));
+        },
+    });
+  }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
