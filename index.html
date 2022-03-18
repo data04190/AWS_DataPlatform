@@ -72,7 +72,8 @@
 	cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
 			var accessToken = result.getAccessToken().getJwtToken();
-			console.log(accessToken);	
+			console.log(accessToken);
+		        location.href = "file_upload.html";
         },
 
         onFailure: function(err) {
