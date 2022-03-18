@@ -36,7 +36,7 @@
 
       <div id = "button">
       <button type="button" class = "button" onclick="signInButton()">Login</button>  
-      <button type="button" class = "button" onclick="signInButton()">Register</button><br>
+      <button type="button" class = "button" onclick="registerbutton()">Register</button><br>
       </div>
       <a href= "http://www.naver.com">Forget the password</a>
 
@@ -80,6 +80,9 @@
             alert(err.message || JSON.stringify(err));
         },
     });
+  }
+  function  registerbutton(){
+     location.href = "register.html";
   }
 </script>
 </body>
