@@ -11,6 +11,8 @@
   <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
   <script src="js/amazon-cognito-identity.min.js"></script>  
   <script src="js/config.js"></script>
+  <script src = "js/register.js"></script>
+	  
   </head>
 
 	
@@ -68,41 +70,6 @@
       </div>
 
     </form>
-
-	<script>
-
-		var lastname;
-		var firstname;
-		var password;
-		var personalname;
-		var poolData;
-		var email;   
-		
-	 function registerButton() {
-		
-		if (document.getElementById("passwordInputRegister").value != document.getElementById("confirmationpassword").value) {
-			alert("Passwords Do Not Match!")
-			throw "Passwords Do Not Match!"
-		} else {
-			password =  document.getElementById("passwordInputRegister").value;	
-		}
-	  }
- 
-	function resetButton(){
-
-          document.querySelector("#emailInputRegister").value = '';
-          document.querySelector("#passwordInputRegister").value = '';
-          document.querySelector("#confirmationpassword").value = '';
-          document.querySelector("#lastnameRegister").value = '';
-	  document.querySelector("#firstnameRegister").value = '';
-          document.querySelector("#positionRegister").value = '';
-          document.querySelector("#affiationRegister").value = '';
-          document.querySelector("#question1Register").value = '';
-          document.querySelector("#question2Register").value = '';          
-	}
-
-	</script>
- 
  </body>
   
 </html>
