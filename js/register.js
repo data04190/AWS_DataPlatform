@@ -90,7 +90,8 @@ var poolData;
 		console.log('user name is ' + cognitoUser.getUsername());
 		//change elements of page
 		document.getElementById("titleheader").innerHTML = "Check your email for a verification link";
-		
+		document.getElementById("signup").innerHTML = "";
+		document.getElementById("f").innerHTML = "";	
 	});		
 
  	
@@ -98,11 +99,11 @@ var poolData;
 
 function resetButton(){
 
-	  document.querySelector("#emailInputRegister").value = '';
+      document.querySelector("#emailInputRegister").value = '';
       document.querySelector("#passwordInputRegister").value = '';
       document.querySelector("#confirmationpassword").value = '';
       document.querySelector("#lastnameRegister").value = '';
-	  document.querySelector("#firstnameRegister").value = '';
+      document.querySelector("#firstnameRegister").value = '';
       document.querySelector("#positionRegister").value = '';
       document.querySelector("#affiationRegister").value = '';
       document.querySelector("#question1Register").value = '';
