@@ -6,13 +6,11 @@
     <meta charset="utf-8">
 
 	<!-- Javascript SDKs-->
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>     
-    <!--  
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>      
     <script src="js/amazon-cognito-auth.min.js"></script>  
-    -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
     <script src="js/amazon-cognito-identity.min.js"></script>  
-  	<script src="js/config.js"></script>
+    <script src="js/config.js"></script>
 
   </head>
   <body>
@@ -27,10 +25,13 @@
             <label>Email :</label></td>
           <td>
             <input type="text" id="inputUsername"  placeholder="Email address" name="username" required autofocus><br></td>
-        <tr><td>
+	 </tr>
+        <tr>
+	    <td>
               <label> Pass :</label></td>
             <td>
               <input type="password" id="inputPassword"  placeholder="Password" name="password" required><br></td>
+	</tr>
 
       </table>
 
@@ -87,7 +88,7 @@
   }
 	
 	
-    function forgotpasswordbutton() {
+  function forgotpasswordbutton() {
     var poolData = {
           UserPoolId : _config.cognito.userPoolId, // Your user pool id here
           ClientId : _config.cognito.clientId, // Your client id here
@@ -108,7 +109,7 @@
           },
           onFailure: function(err) {
               alert(err);
-        console.log(err);
+              console.log(err);
           },
           inputVerificationCode() {
               var verificationCode = prompt('Please input verification code ' ,'');
