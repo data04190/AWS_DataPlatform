@@ -1,6 +1,6 @@
 var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
-var IdentityPoolId = 'ap-northeast-2:e8c008be-ef3e-422c-96c2-fd0a1178738c';
+var IdentityPoolId = 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9';
 
 AWS.config.update({
   region: bucketRegion,
