@@ -9,7 +9,7 @@ AWS.config.update({
   credentials: new AWS.CognitoIdentityCredentials({
     IdentityPoolId: IdentityPoolId,
     Logins: {
-            'cognito-idp.ap-northeast-2.amazonaws.com/5ijs3ha1o19p7pakoju4r8pgtd': result.getIdToken().getJwtToken()': result.getIdToken().getJwtToken()
+            'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result.getIdToken().getJwtToken()': result.getIdToken().getJwtToken()
     }	    
   })
 });
