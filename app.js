@@ -2,7 +2,15 @@ var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
 var IdentityPoolId = 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9';
 
-var cognitoUser = userPool.getCurrentUser();
+
+var data = { 
+	
+	UserPoolId : _config.cognito.userPoolId,
+        ClientId : _config.cognito.clientId
+    };
+ var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+ var cognitoUser = userPool.getCurrentUser();
+
 
 if (cognitoUser != null) {
 	cognitoUser.getSession(function(err, result) {
