@@ -1,14 +1,32 @@
 var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
 var IdentityPoolId = 'ap-northeast-2:e8c008be-ef3e-422c-96c2-fd0a1178738c';
+var cognitoUser = userPool.getCurrentUser();
 
+
+if (cognitoUser != null) {
+	cognitoUser.getSession(function(err, result) {
+		if (result) {
+			console.log('You are now logged in.');
+
+			// Add the User's Id Token to the Cognito credentials login map.
+			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+				IdentityPoolId: IdentityPoolId,
+				Logins: {
+					'cognito-idp.ap-northeast-2.amazonaws.com/5ijs3ha1o19p7pakoju4r8pgtd': result.getIdToken().getJwtToken()': result.getIdToken().getJwtToken()
+				}
+			});
+		}
+	});
+}
+```
 AWS.config.update({
   region: bucketRegion,
   credentials: new AWS.CognitoIdentityCredentials({
     IdentityPoolId: IdentityPoolId
   })
 });
-
+```
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   params: {
