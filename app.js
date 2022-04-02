@@ -27,7 +27,7 @@ if (cognitoUser != null) {
 		}
 	});
 }
-```
+
 AWS.config.update({
   region: bucketRegion,
   credentials: new AWS.CognitoIdentityCredentials({
@@ -38,7 +38,7 @@ AWS.config.update({
   })
 });
 
-```
+
 ```
 
 var s3 = new AWS.S3({
