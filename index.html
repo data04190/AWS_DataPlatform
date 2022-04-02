@@ -67,6 +67,7 @@
         Username : document.getElementById("inputUsername").value,
         Pool : userPool,
     };
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 	  
     // uesrpooid와 identityPoolid 통합 로그인	  
     if (cognitoUser != null) {
