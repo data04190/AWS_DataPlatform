@@ -2,6 +2,7 @@ var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
 var IdentityPoolId = 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9';
 
+var cognito = require('amazon-cognito-identity-js');
 
 var data = { 
 	
