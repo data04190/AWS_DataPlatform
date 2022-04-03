@@ -3,7 +3,11 @@
     <head>
         <meta charset="utf-8">
         <title>Upload System</title>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+        <script src="js/amazon-cognito-identity.min.js"></script>
+        <script src="./app.js"></script>      
         <script src="js/config.js"></script>
+        
         <style>
         </style>
             <!--켜지면 get() 함수를 실행함.  -->
@@ -50,12 +54,40 @@
                    </form>
  
         </div>
-         
-        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
-        <script src="./app.js"></script>
         
-        <script>
-        function getHtml(template) {
+<script>
+ var data = { 
+         UserPoolId : _config.cognito.userPoolId,
+         ClientId : _config.cognito.clientId
+  };
+ var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+ var cognitoUser = userPool.getCurrentUser();
+    
+  
+  window.onload = function(){
+    //console.log('te');  
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                alert(err);
+                return;
+            }
+            console.log('session validity: ' + session.isValid());
+      //Set the profile info
+      cognitoUser.getUserAttributes(function(err, result) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(result);
+        //document.getElementById("email_value").innerHTML = result[3].getValue();  
+      });     
+      
+        });
+    }
+}
+                               
+      function getHtml(template) {
           return template.join('\n');
         }
         listAlbums();
