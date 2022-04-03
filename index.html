@@ -67,29 +67,44 @@
         Username : document.getElementById("inputUsername").value,
         Pool : userPool,
     };
-    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-    console.log('cognitoUser :' ,cognitoUser);
 	  
-    // uesrpooid와 identityPoolid 통합 로그인	  
-    if (cognitoUser != null) {
-  	cognitoUser.getSession(function(err, result) {
-    		if (result) {
-      			console.log('You are now logged in.');
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    //console.log('cognitoUser :' ,cognitoUser);
+	  
+     cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+			var accessToken = result.getAccessToken().getJwtToken();
+			console.log(accessToken);
+		        //location.href = "file_upload.html";
+        },
 
-     		 // Add the User's Id Token to the Cognito credentials login map.
-     			 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        			IdentityPoolId: 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9',
-        			Logins: {
-          				'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result.getIdToken().getJwtToken()
-           
-        			}
+        onFailure: function(err) {
+            alert(err.message || JSON.stringify(err));
+        },
+    });
 
-     			 });
-     			 location.href = "file_upload.html";
-    		}
-  	 });
+
+   if (cognitoUser != null) {
+    cognitoUser.getSession(function(err, result) {
+        if (result) {
+            console.log('You are now logged in.');
+
+         // Add the User's Id Token to the Cognito credentials login map.
+           AWS.config.update({
+                  region: 'ap-northeast-2',
+                  credentials: new AWS.CognitoIdentityCredentials({
+                  IdentityPoolId: 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9',
+                  Logins: {
+                        'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result.getIdToken().getJwtToken()
+                   }     
+                })
+                });
+           location.href = "file_upload.html";
+        }
+     });
      }
-  }
+}
+
 	  
   /*	
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
