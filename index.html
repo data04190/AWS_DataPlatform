@@ -71,6 +71,42 @@
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     //console.log('cognitoUser :' ,cognitoUser);
 	  
+	  
+   cognitoUser.authenticateUser(authenticationDetails, {
+	onSuccess: function(result) {
+		var accessToken = result.getAccessToken().getJwtToken();
+
+		//POTENTIAL: Region needs to be set if not already set previously elsewhere.
+		AWS.config.region = 'ap-northeast-2';
+
+		AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9', // your identity pool id here
+			Logins: {
+				// Change the key below according to the specific region your user pool is in.
+				'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result
+					.getIdToken()
+					.getJwtToken(),
+			},
+		});
+
+		//refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+		AWS.config.credentials.refresh(error => {
+			if (error) {
+				console.error(error);
+			} else {
+				// Instantiate aws sdk service objects now that the credentials have been updated.
+				// example: var s3 = new AWS.S3();
+				console.log('Successfully logged!');
+			}
+		});
+	},
+
+	onFailure: function(err) {
+		alert(err.message || JSON.stringify(err));
+	},
+});  	  
+	  
+   /*	  
      cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
 			var accessToken = result.getAccessToken().getJwtToken();
@@ -106,7 +142,7 @@
 }
 
 	  
-  /*	
+ 	
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     
 	cognitoUser.authenticateUser(authenticationDetails, {
