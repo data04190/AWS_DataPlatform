@@ -37,7 +37,7 @@ AWS.config.update({
     }	    
   })
 });
-*/
+
 
 AWS.config.update({
   region: bucketRegion,
@@ -45,7 +45,7 @@ AWS.config.update({
     IdentityPoolId: IdentityPoolId
   })
 });
-
+*/
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   params: {
