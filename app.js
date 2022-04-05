@@ -46,6 +46,33 @@ AWS.config.update({
   })
 });
 */
+
+let idToken = getToken();
+let COGNITO_ID = "cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k"; // 'COGNITO_ID' has the format 'cognito-idp.REGION.amazonaws.com/COGNITO_USER_POOL_ID'
+let loginData = {
+  [COGNITO_ID]: idToken,
+};
+
+const s3Client = new S3Client({
+    region: bucketRegion,
+    credentials: fromCognitoIdentityPool({
+    clientConfig: { region: bucketRegion }, // Configure the underlying CognitoIdentityClient.
+    identityPoolId: IdentityPoolId,
+    logins: {
+      loginData
+    }
+  })
+});
+
+window.getToken = function () {
+  var idtoken = window.location.href;
+  var idtoken1 = idtoken.split("=")[1];
+  var idtoken2 = idtoken1.split("&")[0];
+  var idtoken3 = idtoken2.split("&")[0];
+  return idtoken3;
+};
+
+
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   params: {
