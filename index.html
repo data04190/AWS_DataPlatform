@@ -71,7 +71,7 @@
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     //console.log('cognitoUser :' ,cognitoUser);
 	  
-	  
+/*	  
    cognitoUser.authenticateUser(authenticationDetails, {
 	onSuccess: function(result) {
 		var accessToken = result.getAccessToken().getJwtToken();
@@ -107,9 +107,9 @@
 	},
   });
   }	  
+*/	  
 	  
 	  
-   /*	  
      cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
 			var accessToken = result.getAccessToken().getJwtToken();
@@ -121,7 +121,7 @@
             alert(err.message || JSON.stringify(err));
         },
     });
-
+/*
 
    if (cognitoUser != null) {
     cognitoUser.getSession(function(err, result) {
