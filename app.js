@@ -48,6 +48,8 @@ AWS.config.update({
 });
 
 */
+
+/*
 var cognitoUser = userPool.getCurrentUser();
 
 if (cognitoUser != null) {
@@ -68,6 +70,8 @@ if (cognitoUser != null) {
       }
     });
   }
+
+*/
 
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
