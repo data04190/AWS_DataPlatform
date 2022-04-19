@@ -1,4 +1,4 @@
-var albumBucketName = 'eeg-platform';
+var albumBucketName = 'kmk-practice';
 var bucketRegion = 'ap-northeast-2';
 var IdentityPoolId = 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9';
 var idKey = 'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k';
