@@ -13,27 +13,28 @@
 
   <body onLoad="get()">
 
-	<div class="container">      
-               <h2>EEG Platform</h2>
-      		  
+	<div class="container">
+      
+        <h2>EEG Platform</h2>
 		<b>Account : </b>
-		<label id="email_value"></label>
-		<label id = "level">(admin)</label>
 
-		<button type="button" onclick="signOut()">Sign out</button><br>					
-         </div>
+		<label id="email_value"></label>
+		 (<label id = "level"></label>)
+
+		<button type="button" onclick="signOut()">Sign out</button><br><br>
+					
+    </div>
+
 
     <div id = "page">
     	
-
     </div>
 
 
         <div class="Top">
   
         </div>
-	  
-        <div style="text-align: center;"><h3>Upload</h3></div>
+        <div style="text-align: center;"><h2>Upload</h2></div>
  
         <form name="article_add_form" method="POST">
             <table width="940" style="padding:5px 0 5px 0; ">
@@ -65,15 +66,24 @@
  
         </div>
 
+
     <script>
+    var name;
+    var groupname;
+	
+    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({apiVersion: '2016-04-18'});
+
+
 	var data = { 
 		UserPoolId : _config.cognito.userPoolId,
         ClientId : _config.cognito.clientId
     };
+    
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
     var cognitoUser = userPool.getCurrentUser();
-		
-	
+
+
+
 	window.onload = function(){	
 		if (cognitoUser != null) {
         cognitoUser.getSession(function(err, session) {
@@ -89,12 +99,33 @@
 					return;
 				}
 				console.log(result);
-				document.getElementById("email_value").innerHTML = result[3].getValue();	
+				name = result[3].getValue();
+				document.getElementById("email_value").innerHTML = name;	
 			});			
 			
         });
-    }
-}
+     }
+   }
+   console.log(name);
+
+   	var params = {
+		Username : name,
+		UserPoolId : _config.cognito.userPoolId
+
+	};
+
+	cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+  		if (err) console.log(err, err.stack); // an error occurred
+  		else {
+  	   		console.log(data); 
+  	  	    var count = data.Groups.length
+  	        groupname = data.Groups[count-1].GroupName;  // 속한 그룹명 가져오기
+  	        //console.log(data.Groups.length);
+  	        //onsole.log(groupname.length);
+  	        document.getElementById("level").innerHTML = groupname;
+        }    
+    });
+
 
 	function signOut(){
 	    if (cognitoUser != null) {
