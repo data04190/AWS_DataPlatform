@@ -1,0 +1,19 @@
+
+.container{
+   margin-top: 10px;
+   padding: 20px 20px 0;
+   text-align: center;
+}
+
+.delete{
+	display: inline-block;
+}
+
+#delete_str{
+	display : block;
+}
+
+#upload {
+
+	display: block;
+}
