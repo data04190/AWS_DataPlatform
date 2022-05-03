@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link type = "text/css" rel = "stylesheet" href ="css/profile.css">
+	  
 	 <!--Cognito JavaScript-->
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>      
     <script src="js/amazon-cognito-auth.min.js"></script>  
@@ -23,7 +25,7 @@
 
 		<button type="button" onclick="signOut()">Sign out</button><br><br>
 					
-    </div>
+         </div>
 
 
     <div id = "page">
@@ -34,6 +36,8 @@
         <div class="Top">
   
         </div>
+	  
+     <div id = "upload"> 	  
         <div style="text-align: center;"><h2>Upload</h2></div>
  
         <form name="article_add_form" method="POST">
@@ -64,8 +68,8 @@
                     </table>
                    </form>
  
-        </div>
-
+           </div>
+	</div>
 
     <script>
     var name;
