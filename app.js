@@ -6,49 +6,11 @@ var idKey = 'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k';
 
 var data = { 
 	
-	UserPoolId : _config.cognito.userPoolId,
+	      UserPoolId : _config.cognito.userPoolId,
         ClientId : _config.cognito.clientId
     };
- var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
- //var cognitoUser = userPool.getCurrentUser();
 
-/*
-if (cognitoUser != null) {
-	cognitoUser.getSession(function(err, result) {
-		if (result) {
-			console.log('You are now logged in.');
-
-			// Add the User's Id Token to the Cognito credentials login map.
-			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-				IdentityPoolId: 'IdentityPoolId',
-				Logins: {
-					'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result.getIdToken().getJwtToken()
-				}
-			});
-		}
-	});
-}
-
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId,
-    Logins: {
-            'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k': result.getIdToken().getJwtToken()': result.getIdToken().getJwtToken()
-    }	    
-  })
-});
-
-
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
-
-*/
-
+var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
 
 var cognitoUser = userPool.getCurrentUser();
 
@@ -69,7 +31,7 @@ if (cognitoUser != null) {
         });
       }
     });
-  }
+}
 
 
 
@@ -79,6 +41,8 @@ var s3 = new AWS.S3({
     Bucket: albumBucketName
   }
 });
+
+
 
 function listAlbums() {
   s3.listObjects({
@@ -176,6 +140,7 @@ function viewAlbum(albumName) {
     document.getElementById('page').innerHTML = getHtml(htmlTemplate);
   });
 }
+
 function deleteCheckFile(albumName,photoKey){
     if(confirm("delete?") == true){
         deletePhoto(albumName,photoKey);
@@ -183,6 +148,8 @@ function deleteCheckFile(albumName,photoKey){
       return;
     }
 }
+
+
 function deletePhoto(albumName, photoKey) {
       s3.deleteObject({
         Key: photoKey
@@ -196,6 +163,8 @@ function deletePhoto(albumName, photoKey) {
       });
       
 }
+
+
 function deleteAlbum(albumName) {
   var albumKey = encodeURIComponent(albumName) + '/';
   if(confirm("delete?") == true){
@@ -259,7 +228,8 @@ function addPhoto(albumName) {
 var send = {
       'key1': "",
       'key2': "",
-  }
+}
+
 
 function preprocessing(albumBucketName, photoKey){
   send = {
@@ -270,7 +240,9 @@ function preprocessing(albumBucketName, photoKey){
   //send = JSON.stringify(send)
   post2()
 }
-const URL2 =  "https://b5um800ra9.execute-api.ap-northeast-2.amazonaws.com/default/lambda-ecr" ;    
+
+
+const URL2 =  "https://neowajs2h7.execute-api.ap-northeast-2.amazonaws.com/default/kmk-efs" ;    
 
 function post2() {
     fetch(URL2, {
@@ -351,5 +323,5 @@ function add_article_with_photo(albumName) {
     }
    });
 
-    }
+}
     

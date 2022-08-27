@@ -1,30 +1,44 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Upload System</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link type = "text/css" rel = "stylesheet" href ="css/profile.css">
+    
+   <!--Cognito JavaScript-->
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>      
     <script src="js/amazon-cognito-auth.min.js"></script>  
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script> 
     <script src="js/amazon-cognito-identity.min.js"></script>  
     <script src="js/config.js"></script>
-    <script src="./app.js"></script>     
-        <style>
-        </style>
-            <!--켜지면 get() 함수를 실행함.  -->
-            <body onLoad="get()">
-                <div id="page">
-            
-                </div>
+    <script src="./app.js"></script>   
+  </head>
 
- 
-    </head>
- 
-    <body>
+  <body onLoad="get()">
+
+  <div class="container">
+      
+        <h2>EEG Platform</h2>
+    <b>Account : </b>
+
+    <label id="email_value"></label>
+     (<label id = "level"></label>)
+
+    <button type="button" onclick="signOut()">Sign out</button><br><br>
+          
+         </div>
+
+
+    <div id = "page">
+      
+    </div>
+
+
         <div class="Top">
   
         </div>
-        <div style="text-align: center;"><h1>Upload</h1></div>
+    
+     <div id = "upload">    
+        <div><h2>Upload</h2></div>
  
         <form name="article_add_form" method="POST">
             <table width="940" style="padding:5px 0 5px 0; ">
@@ -54,19 +68,27 @@
                     </table>
                    </form>
  
-        </div>
-        
-<script>
- var data = { 
-         UserPoolId : _config.cognito.userPoolId,
-         ClientId : _config.cognito.clientId
-  };
- var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
- var cognitoUser = userPool.getCurrentUser();
-    
+           </div>
+  </div>
+
+  <script>
+    var name;
+    var groupname;
   
-  window.onload = function(){
-    //console.log('te');  
+    var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({apiVersion: '2016-04-18'});
+
+
+    var data = { 
+          UserPoolId : _config.cognito.userPoolId,
+          ClientId : _config.cognito.clientId
+    };
+    
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(data);
+    var cognitoUser = userPool.getCurrentUser();
+
+
+  // 사용자 이메일 주소 정보 가져오기
+  window.onload = function(){ 
     if (cognitoUser != null) {
         cognitoUser.getSession(function(err, session) {
             if (err) {
@@ -81,42 +103,49 @@
           return;
         }
         console.log(result);
-        //document.getElementById("email_value").innerHTML = result[3].getValue();  
+        name = result[3].getValue();
+        document.getElementById("email_value").innerHTML = name;  
       });     
       
         });
-    }
-}
- /*
-   if (cognitoUser != null) {
-    cognitoUser.getSession(function(err, result) {
-        if (result) {
-            console.log('You are now logged in.');
-
-           // Add the User's Id Token to the Cognito credentials login map.
-           AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-              IdentityPoolId: 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9',
-              Logins: {
-                  'cognito-idp.ap-northeast-2.amazonaws.com/ap-northeast-2_4D9Vxpt6k':result.getIdToken().getJwtToken()
-           
-              }
-
-           });
-           console.log("로그인 성공");
-           //location.href = "file_upload.html";
-        }
-     });
      }
-   
-    
-    AWS.config.region = 'ap-northeast-2'; // 리전
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-northeast-2:3a5facf1-3a37-41ee-8d05-ed417fd9c0d9',});
-    
-   */ 
-      function getHtml(template) {
-          return template.join('\n');
+   }
+   console.log(name);
+
+    var params = {
+    Username : name,
+    UserPoolId : _config.cognito.userPoolId
+
+  };
+
+  // 사용자 속한 그룹명 정보 가져오기
+  cognitoidentityserviceprovider.adminListGroupsForUser(params, function(err, data) {
+      if (err){
+        console.log(err, err.stack); // an error occurred
+        groupname = "Level1";    //지정된 그룹 없을시 Level1으로 표시
+        document.getElementById("level").innerHTML = groupname;
+
+      } 
+      else {
+          console.log(data); 
+            var count = data.Groups.length
+            groupname = data.Groups[count-1].GroupName;  // 속한 그룹명 가져오기
+            document.getElementById("level").innerHTML = groupname;
+        }    
+    });
+
+
+  function signOut(){
+      if (cognitoUser != null) {
+          cognitoUser.signOut();
+          location.href = "index.html";   
         }
+  }
+
+
+   function getHtml(template) {
+          return template.join('\n');
+   }
         listAlbums();
             /* HTML노드 추가 함수 */
             function createNode(element){
@@ -140,21 +169,22 @@
                 
               /* Append style to the head element */ 
               document.getElementsByTagName("head")[0].appendChild(css); 
-          }
+            }
           
             /* API 게이트웨이로 매물리스트 정보 가져오는 함수 */ 
             
             
-           function func(){
+    function func(){
            upload_to_db();
            submitToAPI(event);
            
            
-           }
+     }
 
-       var elem = document.getElementById('page'); 
-       const URL = "https://8jrtnp0vbf.execute-api.ap-northeast-2.amazonaws.com/default";    
-       function get(){
+    var elem = document.getElementById('page'); 
+    const URL = "https://8jrtnp0vbf.execute-api.ap-northeast-2.amazonaws.com/default";
+
+    function get(){
                 fetch(URL, {
                     method: "GET",
                     headers: {
@@ -182,15 +212,16 @@
                     })
                 })
                 .catch(err => console.log(err))
-            }
-        var Item = {
+      }
+
+    var Item = {
               'name': "",
               'eeg': "",
               "description" : "",              
               'img_source': "",
-          }
+    }
           
-      function upload_to_db(img_location) {
+    function upload_to_db(img_location) {
         var name = document.querySelector("#name").value;
         var eeg = document.querySelector("#eeg").value;
         var description = document.querySelector("#description").value;
@@ -203,6 +234,7 @@
        }
 
     post()
+    
     }
 
       function post() {
@@ -212,7 +244,7 @@
             'Accept': 'application/json',
           },
           body: JSON.stringify({
-            "TableName": "kmk_practice",
+            "TableName": "board-test",
             Item
           })
         }).then(resp => console.log(resp))
@@ -245,5 +277,7 @@
     </head>
  
 </html>
-
+    </script>
+  </body>
+</html>
  
